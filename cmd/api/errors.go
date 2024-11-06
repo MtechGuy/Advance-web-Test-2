@@ -27,6 +27,12 @@ func (a *applicationDependencies) errorResponseJSON(w http.ResponseWriter,
 	}
 }
 
+func (a *applicationDependencies) rateLimitExceededResponse(w http.ResponseWriter, r *http.Request) {
+
+	message := "rate limit exceeded"
+	a.errorResponseJSON(w, r, http.StatusTooManyRequests, message)
+}
+
 func (a *applicationDependencies) serverErrorResponse(w http.ResponseWriter,
 	r *http.Request,
 	err error) {

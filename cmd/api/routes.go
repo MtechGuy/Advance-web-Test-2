@@ -34,6 +34,6 @@ func (a *applicationDependencies) routes() http.Handler {
 	router.HandlerFunc(http.MethodGet, "/product/:pid/review/:rid", a.getProductReviewHandler)
 	router.HandlerFunc(http.MethodPatch, "/helpful-count/:rid", a.HelpfulCountHandler)
 
-	return a.recoverPanic(router)
+	return a.recoverPanic(a.rateLimit(router))
 
 }

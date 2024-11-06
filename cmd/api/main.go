@@ -22,6 +22,11 @@ type serverConfig struct {
 	db          struct {
 		dsn string
 	}
+	limiter struct {
+		rps     float64 // requests per second
+		burst   int     // initial requests possible
+		enabled bool    // enable or disable rate limiter
+	}
 }
 
 type applicationDependencies struct {
@@ -37,6 +42,12 @@ func main() {
 	flag.IntVar(&setting.port, "port", 4000, "Server port")
 	flag.StringVar(&setting.environment, "env", "development", "Environment (development|staging|production)")
 	flag.StringVar(&setting.db.dsn, "db-dsn", "postgres://product_review_app:Josselyn03@localhost/product_review_app?sslmode=disable", "PostgreSQL DSN")
+
+	flag.Float64Var(&setting.limiter.rps, "limiter-rps", 2, "Rate Limiter maximum requests per second")
+
+	flag.IntVar(&setting.limiter.burst, "limiter-burst", 5, "Rate Limiter maximum burst")
+
+	flag.BoolVar(&setting.limiter.enabled, "limiter-enabled", true, "Enable rate limiter")
 
 	flag.Parse()
 
